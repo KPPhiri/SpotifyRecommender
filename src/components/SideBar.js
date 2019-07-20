@@ -11,16 +11,18 @@ export default class SideBar extends Component {
 
     render() {
         //Destructued state object into properties
-        let {name, image, followers, email} = this.state
+        let { name, image, followers, email } = this.state
 
         return (
             <div className="SideBarContainer">
                 <div className="profileImg">
-                    <img src={image} alt='profile of user'/>
+                    <img src={image} alt='profile of user' />
                 </div>
-                <h2>Name: {name}</h2>
-                <h2>Followers: {followers}</h2>
-                <h2>Email: {email}</h2>
+                <div className="SideBarDescription">
+                    <h2>Name: {name}</h2>
+                    <h2>Followers: {followers}</h2>
+                    <h2>Email: {email}</h2>
+                </div>
             </div>
         )
     }
