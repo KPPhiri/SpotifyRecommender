@@ -31,8 +31,7 @@
 }
 .topnav {
   overflow: hidden;
-  background-color: #282828;
-  border: 1.5px solid #4D34A8;
+  background-color: #1F1F1F;
 }
 
 .topnav a {
@@ -42,7 +41,6 @@
   padding: 14px 16px;
   text-decoration: none;
   font-size: 20px;
-  border: 1px solid #4D34A8;
 }
 
 .topnav a:hover {
