@@ -1,0 +1,28 @@
+/* Container for sidebar */
+.SideBarContainer {
+    max-width: 20vw;
+    background: #2D2D2D;
+    height: 90vh;
+    display: flex;
+    padding: 1vw;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+/* Container for user description */
+/* H2 headings of side bar descriptions */
+.SideBarDescription h2{
+    font-size: 1.5vw;
+    margin-top: 3vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    color: #2F85B3;
+    font-family: monospace;
+}
+
+/* profile picture styl;es */
+.profileImg img{
+    width: 19vw;  
+}
+
