@@ -10,6 +10,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <NavBar></NavBar>
+        <PlayBack></PlayBack>
 
       </div>
     </BrowserRouter>
