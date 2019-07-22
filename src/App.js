@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
-import PlayBack from './containers/PlayBack'
+import MainBody from './components/MainBody'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import SideBar from './components/SideBar'
 
@@ -10,8 +10,10 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <NavBar></NavBar>
-        <PlayBack></PlayBack>
+        <div id="info">
         <SideBar></SideBar>
+        <MainBody></MainBody>
+        </div>
       </div>
     </BrowserRouter>
   );
