@@ -95,24 +95,24 @@ class PlayBack extends Component {
   render() {
 
     return (
-      <div className="App">
+      <div className="SideBarContainer">
         <header className="App-header">
-          {!this.state.token && (
-            <a
-              className="btn btn--loginApp-link"
-              href= {this.state.authEndpoint+ 'client_id=' + this.state.clientId + '&redirect_uri=' + this.state.redirectUri + '&scope=' + this.state.scopes.join("%20") + '&response_type=token&show_dialog=true'}
-            >
-              Login to Spotify
-            </a>
-          )}
+        {!this.state.token && (
+          <a
+            className="btn btn--loginApp-link"
+            href= {this.state.authEndpoint+ 'client_id=' + this.state.clientId + '&redirect_uri=' + this.state.redirectUri + '&scope=' + this.state.scopes.join("%20") + '&response_type=token&show_dialog=true'}
+          >
+            Login to Spotify
+          </a>
+        )}
 
-          {this.state.token && (
-           <Player
-             item={this.state.item}
-             is_playing={this.state.is_playing}
-             progress_ms={this.progress_ms}
-           />
-         )}
+        {this.state.token && (
+         <Player
+           item={this.state.item}
+           is_playing={this.state.is_playing}
+           progress_ms={this.progress_ms}
+         />
+       )}
         </header>
       </div>
     );
