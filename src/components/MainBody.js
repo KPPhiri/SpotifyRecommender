@@ -7,8 +7,6 @@ import Recommender from '../containers/Recommender/Recommender'
 const mainbody = (props) => {
   return (
     <div id="mainbody">
-      // <Route path="/Recommender"  component={Recommender} />
-      <Recommender></Recommender>
     </div>
   )
 
