@@ -8,7 +8,7 @@
 }
 
 #left {
-  float:left;
+  float:none;
   font-size: 20px;
   color: #4D34A8;
   display: inline-block;
