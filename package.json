@@ -4,24 +4,14 @@
   "description": "# Setup",
   "main": "server.js",
   "dependencies": {
-<<<<<<< HEAD
-    "concurrently": "^4.1.1",
-    "express": "^4.17.1",
-    "mongoose": "^5.6.1",
-    "node-spotify-api": "^1.1.1",
-    "spotify-web-api-node": "^4.0.0",
-    "@tensorflow/tfjs-node": "^1.2.3",
-    "lodash": "^4.17.11"
-=======
-    "hash": "^0.2.1",
+    "@tensorflow/tfjs-node": "1.2.3",
+    "concurrently": "4.1.1",
+    "express": "4.17.1",
     "jquery": "^3.4.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-particles-js": "^2.7.0",
-    "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
-    "spotify-web-api-js": "^1.2.0"
->>>>>>> bb35fa624e2ccbbd3b855b912aecf2830831a34a
+    "lodash": "4.17.11",
+    "mongoose": "5.6.1",
+    "node-spotify-api": "1.1.1",
+    "spotify-web-api-node": "4.0.0"
   },
   "engines": {
     "node": "10.x"
