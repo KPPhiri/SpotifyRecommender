@@ -3,7 +3,7 @@ const mongoose = require('./connection.js')
 
 const TrackSchema = new mongoose.Schema({
   features: {
-    type: [Number],
+    type: Array,
     default: [1, 2, 3]
   },
   labels: {
@@ -23,14 +23,20 @@ function getAllTracks() {
   return TracksCollection.find()
 }
 
-//Create the the object that has a two dimensional arra
+// //Create the the object that has a two dimensional arra
+// function createLargeSpotifyPlaylist(tracksObject) {
+//   // console.log("tracksObject: ", tracksObject)
+//
+//   // { name: 'string', size: 'string' }
+//   // return TracksCollection.create({tracksObject})
+//   return TracksCollection.create({features: [[91], [91], [91]], labels: [81, 82, 83], track_information: [71, 72, 73]})
+// }
+
 function createLargeSpotifyPlaylist(tracksObject) {
   console.log("tracksObject: ", tracksObject)
-
-  // { name: 'string', size: 'string' }
-  // return TracksCollection.create({tracksObject})
-  return TracksCollection.create({features: [91, 92, 93], labels: [81, 82, 83], track_information: [71, 72, 73]})
+  return TracksCollection.create(tracksObject)
 }
+
 
 //Delete every item in the database
 function deleteAllItems() {
