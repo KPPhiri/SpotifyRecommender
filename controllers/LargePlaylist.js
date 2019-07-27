@@ -18,7 +18,7 @@ LargePlayListRouter.get('/', (req, res) => {
 
 //Creates a new playlist object
 LargePlayListRouter.post('/', (req, res) => {
-  LargePlaylistAPI.createNestedArray(req.body)
+  LargePlaylistAPI.createLargeSpotifyPlaylist(req.body)
     .then((tracks) => res.send(tracks))
     .catch(err => console.log(err))
 })
