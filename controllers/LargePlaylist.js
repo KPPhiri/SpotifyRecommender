@@ -26,10 +26,11 @@ LargePlayListRouter.post('/', (req, res) => {
 
 //Get songs from a spotify playlist using Spotify's API and load tracks into MongoDB
 LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
-  SpotifyTensorAPI.getPlaylistTrackIDs('https://api.spotify.com/v1/playlists/7htu5ftbLBRFAwiuHVcUAg')
-    .then((arrays) => res.send({features: arrays[0], labels: arrays[1], tracks_name:arrays[2]})).then((result) => console.log(result))
-    .catch(err => console.log(err))
+  SpotifyTensorAPI.asyncgetPlaylistTrackIDsDriver('https://api.spotify.com/v1/playlists/7htu5ftbLBRFAwiuHVcUAg')
+    .then((arrays) => LargePlaylistAPI.createLargeSpotifyPlaylist({features: arrays[0], labels: arrays[1], track_information: arrays[2]})).then((data) => console.log("Result: ", data)).catch(err => console.log("Error", err))
 })
+
+//{features: arrays[0], labels: arrays[1], tracks_name:arrays[2]}
 
 //delete all the playlist items
 LargePlayListRouter.delete('/:largePlayListId',(req, res) => {
