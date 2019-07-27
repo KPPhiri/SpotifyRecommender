@@ -20,7 +20,7 @@ function getAllTracks() {
 
 //Create the the object that has a two dimensional arra
 function createLargeSpotifyPlaylist(tracksObject) {
-  return TracksCollection.create({tracksObject})
+  return TracksCollection.create(tracksObject)
 }
 
 //Delete every item in the database
