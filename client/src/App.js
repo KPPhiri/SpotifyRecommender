@@ -166,25 +166,25 @@ class App extends Component  {
         )}
 
         {this.state.token && (
-          // <div
-          //   style={{
-          //     position: "absolute",
-          //     top: 0,
-          //     left: 0,
-          //     width: "100%",
-          //     height: "100%"
-          //   }}
-          // >
-          //   <ParticlesComponent />
-          //   <div
-          //     style={{
-          //       position: "absolute",
-          //       top: 0,
-          //       left: 0,
-          //       width: "100%",
-          //       height: "100%"
-          //     }}
-          //   >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%"
+            }}
+          >
+            <ParticlesComponent />
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%"
+              }}
+            >
 
           <BrowserRouter>
             <div className="App">
