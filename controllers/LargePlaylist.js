@@ -2,6 +2,7 @@ const express = require('express')
 
 
 const LargePlaylistAPI = require('../models/LargePlaylist.js')
+const SpotifyTensorAPI = require('../models/Spotify_TensorScripts.js')
 
 
 const LargePlayListRouter = express.Router()
@@ -20,6 +21,13 @@ LargePlayListRouter.get('/', (req, res) => {
 LargePlayListRouter.post('/', (req, res) => {
   LargePlaylistAPI.createLargeSpotifyPlaylist(req.body)
     .then((tracks) => res.send(tracks))
+    .catch(err => console.log(err))
+})
+
+//Get songs from a spotify playlist using Spotify's API and load tracks into MongoDB
+LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
+  SpotifyTensorAPI.getPlaylistTrackIDs('https://api.spotify.com/v1/playlists/7htu5ftbLBRFAwiuHVcUAg')
+    .then((arrays) => res.send({features: arrays[0], labels: arrays[1], tracks_name:arrays[2]})).then((result) => console.log(result))
     .catch(err => console.log(err))
 })
 

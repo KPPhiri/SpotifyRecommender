@@ -7,6 +7,7 @@ import Recommender from '../containers/Recommender/Recommender'
 const mainbody = (props) => {
   return (
     <div id="mainbody">
+    <Recommender></Recommender>
     </div>
   )
 
