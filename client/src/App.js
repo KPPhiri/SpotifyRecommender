@@ -1,7 +1,7 @@
 import React, {Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar'
-import MainBody from './components/MainBody'
+import MainBody from './containers/MainBody/MainBody'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import SideBar from './components/SideBar'
 import * as $ from "jquery";
