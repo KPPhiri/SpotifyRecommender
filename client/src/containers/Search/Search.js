@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Search.css'
+import { Link } from 'react-router-dom'
 
 export default class Search extends Component {
 
@@ -8,10 +9,8 @@ export default class Search extends Component {
     state = {
         searchField: '',
         listOfSongs: [],
-        showSongLists: false,
-        features: [],
+        showSearchButton: true,
         searchUrl: '',
-        token: 'BQA7QSSIwNgkXeCKza2OtTwhVTocAxmR6CbblmM1_vXOoDYngLl4c774e_8yPpAH9Z8WpxVChy_zidQ-Cm1BzLCcGX5-XtPHbh13P_TMLIm8YxCzIdVNXxEZz3qrvftkYXsQSl41kMoEbdU4N6hE5BBaEkS6sMv5EtR8NUg2g3YG2zHfDkq4tuAV6EgDqbD_VS-jm0y-ACgmHmYMdSOOGv_mOWeZksyrzYCbeDxUKg'
     }
 
     //Store user search input in state searchfield 
@@ -31,8 +30,9 @@ export default class Search extends Component {
     requestSongTracks = async (event) => {
         event.preventDefault()
         if (this.state.searchField !== '') {
-            this.turnSearchFieldIntoQuery(this.state.searchField)
+            await this.turnSearchFieldIntoQuery(this.state.searchField)
             this.getListofSongsFromSpotify(this.state.searchUrl)
+            this.setState({searchField: ''})
         }
     }
 
@@ -43,50 +43,76 @@ export default class Search extends Component {
             url: `https://api.spotify.com/v1/search?${url}`,
             method: 'GET',
             headers: {
-                "Authorization": `Bearer ${this.state.token}`
+                "Authorization": `Bearer ${this.props.token}`
             }
         }).then(res => {
             let listOfSongs = res.data.tracks.items
-            this.setState({ features: listOfSongs },
+            this.setState({ listOfSongs: listOfSongs },
                 this.toggleSearchView)
 
         }).catch(err => console.log(`Error : ${err}`))
     }
 
-    //toggle the view to show the list of songs
+    //toggle the view to show the list of songs or the search
     toggleSearchView = () => {
         this.setState(state => {
-            return { showSongLists: !state.showSongLists }
+            return { showSearchButton: !state.showSearchButton}
         })
     }
-    //Grab the song Id the user selected and place it in state
-
 
 
     render() {
+
+        //Destructure state so that it can be used in the render method without adding 
+        //  this.state to access a value
+        let { listOfSongs, showSearchButton } = this.state
+
+        //Create list of songs
+        let songList = listOfSongs.map(song => {
+            return (
+                <div
+                    className='singleSong'
+                    onClick={() => this.props.sendSongToGetFeatures(song.id)}
+                    key={song.id}
+                    id={song.id}>
+                    <hr />
+                    <h2>{`${song.artists[0].name} - ${song.name}`}</h2>
+                </div>
+            )
+        })
         return (
+
             <div id="searchContainer"
                 className="row justify-content-center align-items-center">
-                <form onSubmit={(event) => this.requestSongTracks(event)}
-                    id="searchForm"
-                    className="col-xs-10 col-md-12 row justify-content-center align-items-center">
-                    <input
-                        id="searchInputField"
-                        type="text"
-                        className="col-xs-12 col-md-12"
-                        value={this.state.searchField}
-                        onChange={(event) => this.updateUserInputOnChange(event)}
-                        placeholder="Search Song" />
-                    <button
-                        id="searchButton"
-                        type='submit'
+                {
+                    showSearchButton
+                        ?
+                        <form onSubmit={(event) => this.requestSongTracks(event)}
+                            id="searchForm"
+                            className="col-xs-10 col-md-12 row justify-content-center align-items-center">
+                            <input
+                                id="searchInputField"
+                                type="text"
+                                className="col-xs-12 col-md-12"
+                                value={this.state.searchField}
+                                onChange={(event) => this.updateUserInputOnChange(event)}
+                                placeholder="Search Song" />
+                            <button
+                                id="searchButton"
+                                type='submit'
 
-                        className="">Submit</button>
-                </form>
-                <div id="songListDisplay "
-                    className="col-xs-10 col-md-12">
-
-                </div>
+                                className="">Submit</button>
+                        </form>
+                        :
+                        <div id="songListDisplay"
+                            className="col-xs-10 col-md-12">
+                            {songList}
+                            <button onClick={this.toggleSearchView}>Do Another Search</button>
+                            <Link to='/recommender'>
+                                <button className='goToRecommenderButton'>View Playlist</button>
+                            </Link>
+                        </div>
+                }
             </div>
         )
     }
