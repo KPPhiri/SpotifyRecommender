@@ -8,7 +8,8 @@
     font-size: 24px;
     border: none;
     text-align: center;
-    color: #4D34A8;
+    color: white;
+    background-color: transparent;
 }
 
 #searchInputField:focus{
@@ -29,4 +30,8 @@
     border-radius: 1em;
     background-color: #4D34A8;
     color: whitesmoke;
+}
+
+#songListDisplay .singleSong h2{
+    color: white;
 }
