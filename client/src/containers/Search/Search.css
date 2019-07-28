@@ -1,0 +1,32 @@
+/* Style sheet for Search container component */
+
+#searchContainer {
+    height: 50%;
+}
+
+#searchInputField {
+    font-size: 24px;
+    border: none;
+    text-align: center;
+    color: #4D34A8;
+}
+
+#searchInputField:focus{
+    outline-color: transparent;
+    outline-style: none;
+    font-size: 35px;
+}
+
+#searchForm {
+    height: fit-content;
+}
+
+#searchButton {
+    margin-top: 0.5em;
+    width: 5em;
+    height: fit-content;
+    font-size: 1.5em;
+    border-radius: 1em;
+    background-color: #4D34A8;
+    color: whitesmoke;
+}
