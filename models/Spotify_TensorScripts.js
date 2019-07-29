@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: 'https://www.getpostman.com/oauth2/callback'
 });
 
-spotifyApi.setAccessToken('BQBGtiwHfshQ6ild4VeeoEQorpBNJ6jyTSSzfNFNp0tX7kZ48RNvY68ScPy8Sj0RuOFJKiWiIU2YuCE4AsZAObmK9-DTtzRherPAdjjpd-FKgU52KKxsw3HopP7Dua9i8RQe0eKDzyqw9HBc7Y9TV-PMfRwQMqu-IJr8ZE_kYb4W4L-Go7qhN3hwuQwkaQ5DRa7BxOzF5PK8DM8');
+spotifyApi.setAccessToken('BQBf6oGU-TihVtvOSXrT7mC_aRJtITQwdl88JcDVGiFDg5ipiRqxgx_FZrysSjybKeyYskaMwXN6UFQYYvHg1ybI5V_5Kn3Z8byIBMt7naZIq5-oJ8CxMN5O0XQ3ckymIaJ-roE5dBczHHvr0tALXf_rk2dj8iPkS6ZNN1f5Ckok5LG5__4hv8yL-rTpyMRsAEKM6ZeZkrdPWeQ');
 
 /*
 mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
@@ -46,7 +46,7 @@ let done = false;
 let k = 20;
 let jsonData = {}
 let target = ['3XVBdLihbNbxUwZosxcGuJ'];
-let target_features = [];
+
 let req_path = 'https://api.spotify.com/v1/playlists/7htu5ftbLBRFAwiuHVcUAg';
 //
 // getTargetTrackFeatures(target);
@@ -176,30 +176,57 @@ async function getTrackFeatures(playlist_ids_arr){
 }
 
 //returns 2D array of track features
-function getTargetTrackFeatures(playlist_ids_arr){
-	spotifyApi.getAudioFeaturesForTracks(playlist_ids_arr)
-	  .then(function(data) {
-	    let items = data.body['audio_features'];
-	    for(let track_indx = 0; track_indx < items.length; track_indx++) {
-	    	let track_arr = []
-	    	for(let audio_feature in items[track_indx]) {
-	    		if(audio_feature == 'acousticness' || audio_feature == 'danceability' || audio_feature == 'energy' || audio_feature == 'instrumentalness' || audio_feature == 'liveness' || audio_feature == 'loudness' || audio_feature == 'speechiness' || audio_feature == 'valence' || audio_feature == 'tempo') {
-	    			let val = items[track_indx][audio_feature]
-		    		if(audio_feature == 'loudness') {
-			    		val = Math.abs(val /= 60.0);
-		    		} else if(audio_feature == 'tempo') {
-		    			val /= 225.0;
-		    		}
-		    		target_features.push(val);
-		    	}
-	    	}
-	    }
-	  }, function(err) {
-	  	console.log("ERROR: " + err);
-	  }).then(function(data) {
-	  	console.log("Done: " + done);
-	  });
+async function getTargetTrackFeatures(playlist_id){
+  let target_features = [];
+
+  playlist_ids_array = [playlist_id]
+	let data = await spotifyApi.getAudioFeaturesForTracks(playlist_ids_array)
+
+  let items = data.body['audio_features'];
+  for(let track_indx = 0; track_indx < items.length; track_indx++) {
+  	let track_arr = []
+  	for(let audio_feature in items[track_indx]) {
+  		if(audio_feature == 'acousticness' || audio_feature == 'danceability' || audio_feature == 'energy' || audio_feature == 'instrumentalness' || audio_feature == 'liveness' || audio_feature == 'loudness' || audio_feature == 'speechiness' || audio_feature == 'valence' || audio_feature == 'tempo') {
+  			let val = items[track_indx][audio_feature]
+    		if(audio_feature == 'loudness') {
+	    		val = Math.abs(val /= 60.0);
+    		} else if(audio_feature == 'tempo') {
+    			val /= 225.0;
+    		}
+    		target_features.push(val);
+    	}
+  	}
+  }
+  return target_features
 }
+
+
+// //returns 2D array of track features
+// function getTargetTrackFeatures(playlist_id){
+//   playlist_ids_array = [playlist_id]
+// 	spotifyApi.getAudioFeaturesForTracks(playlist_ids_array)
+// 	  .then(function(data) {
+// 	    let items = data.body['audio_features'];
+// 	    for(let track_indx = 0; track_indx < items.length; track_indx++) {
+// 	    	let track_arr = []
+// 	    	for(let audio_feature in items[track_indx]) {
+// 	    		if(audio_feature == 'acousticness' || audio_feature == 'danceability' || audio_feature == 'energy' || audio_feature == 'instrumentalness' || audio_feature == 'liveness' || audio_feature == 'loudness' || audio_feature == 'speechiness' || audio_feature == 'valence' || audio_feature == 'tempo') {
+// 	    			let val = items[track_indx][audio_feature]
+// 		    		if(audio_feature == 'loudness') {
+// 			    		val = Math.abs(val /= 60.0);
+// 		    		} else if(audio_feature == 'tempo') {
+// 		    			val /= 225.0;
+// 		    		}
+// 		    		target_features.push(val);
+// 		    	}
+// 	    	}
+// 	    }
+// 	  }, function(err) {
+// 	  	console.log("ERROR: " + err);
+// 	  }).then(function(data) {
+// 	  	console.log("Done: " + done);
+// 	  });
+// }
 
 
 function runTensor(features, mod_labels, k) {
@@ -228,5 +255,6 @@ function getKNN(predicitionPoint, features, labels, k) {
 module.exports = {
   asyncgetPlaylistTrackIDsDriver,
   asyncgetPlaylistTrackIDs,
-  getPlaylistTrackIDs
+  getPlaylistTrackIDs,
+  getTargetTrackFeatures
 }
