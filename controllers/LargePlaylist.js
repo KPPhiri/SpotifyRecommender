@@ -19,6 +19,7 @@ LargePlayListRouter.get('/', (req, res) => {
 
 //Creates a new playlist object
 LargePlayListRouter.post('/', (req, res) => {
+  console.log("STARTED")
   LargePlaylistAPI.createLargeSpotifyPlaylist(req.body)
     .then((tracks) => res.send(tracks))
     .catch(err => console.log(err))
@@ -30,7 +31,12 @@ LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
     .then((arrays) => LargePlaylistAPI.createLargeSpotifyPlaylist({features: arrays[0], labels: arrays[1], track_information: arrays[2]})).then((data) => console.log("Result: ", data)).catch(err => console.log("Error", err))
 })
 
-//{features: arrays[0], labels: arrays[1], tracks_name:arrays[2]}
+LargePlayListRouter.post('/getTargetTrackFeatures', (req, res) => {
+  console.log("ROUTER RECEIVED:", req.body.trackid)
+
+  SpotifyTensorAPI.getTargetTrackFeatures(req.body.trackid)
+    .then((features) => res.send(features)).catch(err => console.log("Error", err))
+})
 
 //delete all the playlist items
 LargePlayListRouter.delete('/:largePlayListId',(req, res) => {
