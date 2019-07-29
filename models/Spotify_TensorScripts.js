@@ -229,16 +229,18 @@ async function getTargetTrackFeatures(playlist_id){
 // }
 
 
-function runTensor(features, mod_labels, k) {
-	tffeatures = tf.tensor(features);
-	tflabels = tf.tensor(mod_labels).expandDims(1);
+async function runTensor(target_features, playlist_features, playlist_labels, k) {
+	tffeatures = tf.tensor(playlist_features);
+	tflabels = tf.tensor(playlist_labels).expandDims(1);
 	tfpred = tf.tensor(target_features);
 
-	let arr = getKNN(tfpred, tffeatures, tflabels, k);
+	let arr = await getKNN(tfpred, tffeatures, tflabels, k);
 
 	for(let i = 0; i < arr.length; i++) {
 		console.log("Song" + i + ":", tracks_name[arr[i].arraySync()[1]], "DIfference: ", arr[i].arraySync()[0]);
 	}
+
+  return arr
 
 
 

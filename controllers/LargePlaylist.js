@@ -32,12 +32,16 @@ LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
 })
 
 LargePlayListRouter.post('/getTargetTrackFeatures', (req, res) => {
-  console.log("ROUTER RECEIVED:", req.body.trackid)
-
   SpotifyTensorAPI.getTargetTrackFeatures(req.body.trackid)
-    .then((features) => res.send(features)).catch(err => console.log("Error", err))
+      .then((features) => res.send(features)).catch(err => console.log("Error", err))
 })
 
+LargePlayListRouter.post('/getRecommendedTracks', (req, res) => {
+  console.log("ROUTER RECEIVED:", req.body)
+  //target_features, playlist_features, playlist_labels, k
+  SpotifyTensorAPI.runTensor(req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize)
+      .then((recommendedTracks) => res.send(recommendedTracks)).catch(err => console.log("Error", err))
+})
 //delete all the playlist items
 LargePlayListRouter.delete('/:largePlayListId',(req, res) => {
   LargePlaylistAPI.deleteAllItems(req.params.largePlayListId)

@@ -18,27 +18,23 @@ export default class MainBody extends Component {
     runFunctionsToUpdateRecommenderPlaylist = async (newSongId) => {
         console.log("ACTIVATED!!")
         await this.useSongIdToGetFeatures(newSongId)
-        //await this.getRecemmendedSongs()
+        let tracklistSize = 20;
+        await this.getRecommendedTracks(this.state.targetSongFeatures, tracklistSize)
         //place the tensor method here so that it runs as soon as as the
         //  features have been grabbed and uploaded to state
 
     }
 
-
+//req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize
     //TOOD: SONG FEATURES IN PROPER FORMAT [1,2,3,4,5]
-    getRecemmendedSongs = (url) => {
-        axios({
-            url: `https://api.spotify.com/v1/search?${url}`,
-            method: 'GET',
-            headers: {
-                "Authorization": `Bearer ${this.props.token}`
-            }
-        }).then(res => {
-            let listOfSongs = res.data.tracks.items
-            this.setState({ listOfSongs: listOfSongs },
-                this.toggleSearchView)
-
-        }).catch(err => console.log(`Error : ${err}`))
+    getRecommendedTracks = (targetTrackFeatures, tracklistSize) => {
+      let res =  axios.post('http://192.168.1.84:3001/api/tracks/getRecommendedTracks',
+      { targetTrackFeatures: targetTrackFeatures,
+        playlist_features: "",
+        playlist_labels: "",
+       tracklistSize: tracklistSize, }).then((body) => {
+        this.setState({reccomenderPlaylist: body.data})
+      }).catch(err => console.log('Error: ', err));
     }
 
 
