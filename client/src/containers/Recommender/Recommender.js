@@ -6,16 +6,7 @@ import arrows from '../../assets/imgs/green-red-arrow.png'
 
 class Recommender extends Component {
   state = {
-      tracks1: [{name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
-    {name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
-    {name: "1Cut To The Feeling", artist: "1Carly Rae Jepsen", album: "1Cut To The Feeling"},
-    {name: "2Cut To The Feeling", artist: "2Carly Rae Jepsen", album: "2Cut To The Feeling"},
-    {name: "3Cut To The Feeling", artist: "3Carly Rae Jepsen", album: "3Cut To The Feeling"},
-    {name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
-  {name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
-  {name: "1Cut To The Feeling", artist: "1Carly Rae Jepsen", album: "1Cut To The Feeling"},
-  {name: "2Cut To The Feeling", artist: "2Carly Rae Jepsen", album: "2Cut To The Feeling"},
-  {name: "3Cut To The Feeling", artist: "3Carly Rae Jepsen", album: "3Cut To The Feeling"}],
+      tracks1:this.props.playlist,
 
     tracks2: [{name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
   {name: "Cut To The Feeling", artist: "Carly Rae Jepsen", album: "Cut To The Feeling"},
@@ -58,11 +49,12 @@ class Recommender extends Component {
         </div>
 
         <img src = {arrows} alt= {arrows} height={"150"} width={"150"}/>
-
         <div className="RecommenderSubContianer">
           <div className="title_playlist">Custom Playlist:</div>
           <PlayList movetrack1totrack2={this.movetrack1totrack2.bind(this)} tracks = {this.state.tracks2} playlist_type = {"customTrackContainer"}></PlayList>
         </div>
+
+
       </div>
     )
   }

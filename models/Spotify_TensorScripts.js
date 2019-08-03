@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: 'https://www.getpostman.com/oauth2/callback'
 });
 
-spotifyApi.setAccessToken('BQBZMq3SAI-GnPJ8bI8fw4jmHha8sE0Q3eJjp4tC2QabjVNoTd-3TIu0bPapQK52bAcMHQF6Lx7ZP6KZuiLe-Yayc0Fn9JbId9p9Z90bZMugX4azVNbrUmJXfZXCxf4uOtb9YZU80nuHqywGWH0YeW-BNHW-s5KdwfX_uktEX-0aJs16jjiNZdcZHT9yi2rjG2NPZVgCWWn3ES4');
+spotifyApi.setAccessToken('BQDlXoLaqp3l2LAClVb3y1rOmee56SWvwzdm-egHzX4DDnkJKo_V5o_1wXYBI7_bYfZIWvO3avUjnYuB2aT97vr51KNV2M8L26LWkOIKNrb5lYLNYEg2parVvYiAZqVV4SwWzCZ20TvBWvbtcEo5Wu5nGfIf72Nxb2D-CODd-5i1fs08zpeVf-U_3oO8lTM1bkjSIpehJHAB8f8');
 
 /*
 mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
@@ -77,7 +77,7 @@ async function asyncgetPlaylistTrackIDs(playlist_url) {
 					let album = items[i]['track']['album']['name'];
 			    	let name = items[i]['track']['name'];
 			    	let id = items[i]['track']['id'];
-			    	tracks_name.push([artists, name, album, id]);
+			    	tracks_name.push({artists: artists, name: name, album: album, id: id});
 			    	labels.push(id);
 			    	temp_track_ids.push(id);
 					// console.log("Track: " + (data_offset + i) + " Artist: " + artists + " Song: " + name + " Album: " + album + " Id: " + id);
@@ -141,7 +141,7 @@ function getPlaylistTrackIDs(playlist_url) {
 			}
 			return data;
 		}).then(function(data){
-			if(done) {
+			if(done) {s
         console.log("SENDING INFOOOO")
         console.log("features:", features.length, "labels", labels.length, "tracks_name", tracks_name.length);
 				return [features, labels, tracks_name];
@@ -241,7 +241,7 @@ async function runTensor(target_features, playlist_features, playlist_labels, pl
   let recommended_songs = []
 	for(let i = 0; i < arr.length; i++) {
 		console.log("Song" + i + ":", playlist_labels[arr[i].arraySync()[1]], "DIfference: ", arr[i].arraySync()[0]);
-    recommended_songs.push(playlist_labels[arr[i].arraySync()[1]])
+    recommended_songs.push(arr[i].arraySync()[1])
   }
   return recommended_songs
 }
