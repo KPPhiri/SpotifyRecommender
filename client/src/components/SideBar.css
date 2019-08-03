@@ -1,12 +1,13 @@
 /* Container for sidebar */
 .SideBarContainer {
     width: 20vw;
-    background: black;
+    background: rgba(0,0,255,0.2);
     height: 89.2vh;
     display: flex;
     padding: 1vw;
     flex-direction: column;
     justify-content: space-evenly;
+    margin: 5px;
 
 }
 

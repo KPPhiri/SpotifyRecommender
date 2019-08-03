@@ -157,13 +157,43 @@ class App extends Component {
       <div>
 
         {!this.state.token && (
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%"
+            }}
+          >
+            <ParticlesComponent />
+            <div className="center"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%"
+              }}
+            >
+
           <a
             className="btn btn--loginApp-link"
             href={this.state.authEndpoint + 'client_id=' + this.state.clientId + '&redirect_uri=' + this.state.redirectUri + '&scope=' + this.state.scopes.join("%20") + '&response_type=token&show_dialog=true'}
           >
             Login to Spotify
           </a>
+
+
+
+          </div>
+          </div>
         )}
+
+
+
+
+
 
         {this.state.token && (
           <div

@@ -21,7 +21,6 @@ export default class SideBar extends Component {
         // this.state.image: this.props.prof_pic,
         // this.state.followers: this.props.followers
 
-
         return (
             <div className="SideBarContainer">
                 <div className="profileImg">
