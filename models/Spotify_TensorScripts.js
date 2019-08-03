@@ -10,7 +10,8 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: 'https://www.getpostman.com/oauth2/callback'
 });
 
-spotifyApi.setAccessToken('BQD5-MwAHviKdSN2T0LbLs5Es7yXv5hn85_EGkPy4yGpgfPiIvCvb4u6u68C3ujLZCTDAe445dlIAdIJckPJk49wlzKOleF9I011SLcr2otgiFiNIn4dl7ajcWw9ngcg_bVL96WBjctriy0ANpK-6DtYjM3nsA19TqWSeahJJMHj9v6B4wJgTLV37uWAYD_YztzdFaz98LaWVN8');
+// spotifyApi.setAccessToken(
+	// "BQB052UYrGO5o5iI9bD-dLa85RZRQCJxTQ4_fqUH9U41l-ikiGNvvuLqwSokipjgf_PKTF31MwkgLZBSSQFFHfot4Scb-WI8BhNbH2dodHgqyh4xO83slPCpCELppdvvItoOcg_qkk8yPtHFLzpeePAd7p4c6GE7fF9yTSPQ5_y8Pw");
 
 /*
 mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
@@ -176,7 +177,8 @@ async function getTrackFeatures(playlist_ids_arr){
 }
 
 //returns 2D array of track features
-async function getTargetTrackFeatures(playlist_id){
+async function getTargetTrackFeatures(playlist_id,newToken){
+  spotifyApi.setAccessToken(newToken);
   console.log("STARTINGGGG")
 
   let target_features = [];
