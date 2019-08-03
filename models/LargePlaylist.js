@@ -19,7 +19,7 @@ const TracksCollection = mongoose.model('Track', TrackSchema)
 
 //Grab the entire list of tracks and track name
 function getAllTracks() {
-  console.log("TracksCollection.find(): ", TracksCollection.find())
+  // console.log("TracksCollection.find(): ", TracksCollection.find())
   return TracksCollection.find()
 }
 

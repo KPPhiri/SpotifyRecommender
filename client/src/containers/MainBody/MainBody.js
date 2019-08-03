@@ -16,9 +16,11 @@ export default class MainBody extends Component {
     //This function stores the id of the song selected by the user in state
     //Pass this method down to search componenet
     runFunctionsToUpdateRecommenderPlaylist = async (newSongId) => {
-        console.log("ACTIVATED!!")
         await this.useSongIdToGetFeatures(newSongId)
+        console.log("ACTIVATED!!", this.state.targetSongFeatures)
         let tracklistSize = 20;
+        console.log("2ACTIVATED!!")
+
         await this.getRecommendedTracks(this.state.targetSongFeatures, tracklistSize)
         //place the tensor method here so that it runs as soon as as the
         //  features have been grabbed and uploaded to state
@@ -26,12 +28,12 @@ export default class MainBody extends Component {
     }
 
 //req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize
-    //TOOD: SONG FEATURES IN PROPER FORMAT [1,2,3,4,5]
+    //TODO: PARSE DATAGBASE AND GET PLAYLIST FEATUREs, PLAYLIST LABELS, AND TRACK INFO
     getRecommendedTracks = (targetTrackFeatures, tracklistSize) => {
+      console.log("3ACTIVATED!!")
+
       let res =  axios.post('http://192.168.1.84:3001/api/tracks/getRecommendedTracks',
       { targetTrackFeatures: targetTrackFeatures,
-        playlist_features: "",
-        playlist_labels: "",
        tracklistSize: tracklistSize, }).then((body) => {
         this.setState({reccomenderPlaylist: body.data})
       }).catch(err => console.log('Error: ', err));
@@ -41,9 +43,9 @@ export default class MainBody extends Component {
 
     //Use the songId to create a list of features
     useSongIdToGetFeatures = async (songId) => {
-      let res =  axios.post('http://192.168.1.84:3001/api/tracks/getTargetTrackFeatures', { trackid: songId }).then((body) => {
-        this.setState({targetSongFeatures: body.data})
-      }).catch(err => console.log('Error: ', err));
+      let body =  await axios.post('http://192.168.1.84:3001/api/tracks/getTargetTrackFeatures', { trackid: songId })
+      this.setState({targetSongFeatures: body.data})
+      console.log("targetSongFeatures", this.state.targetSongFeatures, "BODY", body.data)
      }
 
     render() {

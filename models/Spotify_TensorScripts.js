@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: 'https://www.getpostman.com/oauth2/callback'
 });
 
-spotifyApi.setAccessToken('BQBf6oGU-TihVtvOSXrT7mC_aRJtITQwdl88JcDVGiFDg5ipiRqxgx_FZrysSjybKeyYskaMwXN6UFQYYvHg1ybI5V_5Kn3Z8byIBMt7naZIq5-oJ8CxMN5O0XQ3ckymIaJ-roE5dBczHHvr0tALXf_rk2dj8iPkS6ZNN1f5Ckok5LG5__4hv8yL-rTpyMRsAEKM6ZeZkrdPWeQ');
+spotifyApi.setAccessToken('BQBZMq3SAI-GnPJ8bI8fw4jmHha8sE0Q3eJjp4tC2QabjVNoTd-3TIu0bPapQK52bAcMHQF6Lx7ZP6KZuiLe-Yayc0Fn9JbId9p9Z90bZMugX4azVNbrUmJXfZXCxf4uOtb9YZU80nuHqywGWH0YeW-BNHW-s5KdwfX_uktEX-0aJs16jjiNZdcZHT9yi2rjG2NPZVgCWWn3ES4');
 
 /*
 mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
@@ -177,6 +177,8 @@ async function getTrackFeatures(playlist_ids_arr){
 
 //returns 2D array of track features
 async function getTargetTrackFeatures(playlist_id){
+  console.log("STARTINGGGG")
+
   let target_features = [];
 
   playlist_ids_array = [playlist_id]
@@ -229,21 +231,19 @@ async function getTargetTrackFeatures(playlist_id){
 // }
 
 
-async function runTensor(target_features, playlist_features, playlist_labels, k) {
-	tffeatures = tf.tensor(playlist_features);
-	tflabels = tf.tensor(playlist_labels).expandDims(1);
-	tfpred = tf.tensor(target_features);
+async function runTensor(target_features, playlist_features, playlist_labels, playlist_labels_index, k) {
 
+	tffeatures = tf.tensor(playlist_features);
+	tflabels = tf.tensor(playlist_labels_index).expandDims(1);
+	tfpred = tf.tensor(target_features);
 	let arr = await getKNN(tfpred, tffeatures, tflabels, k);
 
+  let recommended_songs = []
 	for(let i = 0; i < arr.length; i++) {
-		console.log("Song" + i + ":", tracks_name[arr[i].arraySync()[1]], "DIfference: ", arr[i].arraySync()[0]);
-	}
-
-  return arr
-
-
-
+		console.log("Song" + i + ":", playlist_labels[arr[i].arraySync()[1]], "DIfference: ", arr[i].arraySync()[0]);
+    recommended_songs.push(playlist_labels[arr[i].arraySync()[1]])
+  }
+  return recommended_songs
 }
 
 
@@ -258,5 +258,6 @@ module.exports = {
   asyncgetPlaylistTrackIDsDriver,
   asyncgetPlaylistTrackIDs,
   getPlaylistTrackIDs,
-  getTargetTrackFeatures
+  getTargetTrackFeatures,
+  runTensor
 }
