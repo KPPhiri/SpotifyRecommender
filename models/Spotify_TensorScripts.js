@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: 'https://www.getpostman.com/oauth2/callback'
 });
 
-spotifyApi.setAccessToken('BQDlXoLaqp3l2LAClVb3y1rOmee56SWvwzdm-egHzX4DDnkJKo_V5o_1wXYBI7_bYfZIWvO3avUjnYuB2aT97vr51KNV2M8L26LWkOIKNrb5lYLNYEg2parVvYiAZqVV4SwWzCZ20TvBWvbtcEo5Wu5nGfIf72Nxb2D-CODd-5i1fs08zpeVf-U_3oO8lTM1bkjSIpehJHAB8f8');
+spotifyApi.setAccessToken('BQD5-MwAHviKdSN2T0LbLs5Es7yXv5hn85_EGkPy4yGpgfPiIvCvb4u6u68C3ujLZCTDAe445dlIAdIJckPJk49wlzKOleF9I011SLcr2otgiFiNIn4dl7ajcWw9ngcg_bVL96WBjctriy0ANpK-6DtYjM3nsA19TqWSeahJJMHj9v6B4wJgTLV37uWAYD_YztzdFaz98LaWVN8');
 
 /*
 mongoose.connect('mongodb://localhost/my_database', {useNewUrlParser: true});
