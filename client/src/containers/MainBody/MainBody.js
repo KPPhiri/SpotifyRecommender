@@ -29,7 +29,7 @@ export default class MainBody extends Component {
 //req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize
     //TODO: PARSE DATAGBASE AND GET PLAYLIST FEATUREs, PLAYLIST LABELS, AND TRACK INFO
     getRecommendedTracks = async (targetTrackFeatures, tracklistSize) => {
-      let body =  await axios.post('http://127.0.0.1:3001/api/tracks/getRecommendedTracks',
+      let body =  await axios.post('/api/tracks/getRecommendedTracks',
       { targetTrackFeatures: targetTrackFeatures,
        tracklistSize: tracklistSize, })
       this.setState({recommendedPlaylist: body.data})
@@ -39,13 +39,12 @@ export default class MainBody extends Component {
 
     //Use the songId to create a list of features
     useSongIdToGetFeatures = async (songId) => {
-      let body =  await axios.post('http://127.0.0.1:3001/api/tracks/getTargetTrackFeatures', { trackid: songId })
+      let body =  await axios.post('/api/tracks/getTargetTrackFeatures', { trackid: songId })
       this.setState({targetSongFeatures: body.data})
       // console.log("targetSongFeatures", this.state.targetSongFeatures, "BODY", body.data)
      }
 
     render() {
-
         //Create components that will needs props below this line
         //If the component doesnt need props, then create as usual
         //Example let RecommenderComponent = () => <Recommender songId={this.state.songId}/>
