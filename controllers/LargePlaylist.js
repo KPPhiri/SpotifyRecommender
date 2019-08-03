@@ -1,11 +1,11 @@
 const express = require('express')
-
-
+var cors = require('cors');
 const LargePlaylistAPI = require('../models/LargePlaylist.js')
 const SpotifyTensorAPI = require('../models/Spotify_TensorScripts.js')
 
 
 const LargePlayListRouter = express.Router()
+LargePlayListRouter.use(cors());
 
 //Returns the entire playlist from the database
 LargePlayListRouter.get('/', (req, res) => {
@@ -31,16 +31,31 @@ LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
     .then((arrays) => LargePlaylistAPI.createLargeSpotifyPlaylist({features: arrays[0], labels: arrays[1], track_information: arrays[2]})).then((data) => console.log("Result: ", data)).catch(err => console.log("Error", err))
 })
 
-LargePlayListRouter.post('/getTargetTrackFeatures', (req, res) => {
-  SpotifyTensorAPI.getTargetTrackFeatures(req.body.trackid)
-      .then((features) => res.send(features)).catch(err => console.log("Error", err))
+
+
+
+LargePlayListRouter.post('/getTargetTrackFeatures', async (req, res) => {
+    let features = await SpotifyTensorAPI.getTargetTrackFeatures(req.body.trackid).catch(err => console.log("ERROR: ", err))
+    res.send(features)
 })
 
-LargePlayListRouter.post('/getRecommendedTracks', (req, res) => {
-  console.log("ROUTER RECEIVED:", req.body)
-  //target_features, playlist_features, playlist_labels, k
-  SpotifyTensorAPI.runTensor(req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize)
-      .then((recommendedTracks) => res.send(recommendedTracks)).catch(err => console.log("Error", err))
+LargePlayListRouter.post('/getRecommendedTracks', async (req, res) => {
+  //Get complete playlists features and labels from database
+    let arrays = await LargePlaylistAPI.getAllTracks()
+    let playlist_features =  arrays[0].features;
+    let playlist_labels =  arrays[0].labels;
+    let playlist_labels_index = [];
+    let playlist_track_information =  arrays[0].track_information;
+
+    //console.log("playlist_features", playlist_features, "playlist_labels", playlist_labels, "playlist_track_inforamtion", playlist_track_information)
+    for (var i = 0; i < playlist_labels.length; i++) {
+       playlist_labels_index.push(i);
+    }
+
+    let recommendedTracks = await SpotifyTensorAPI.runTensor(req.body.targetTrackFeatures, playlist_features, playlist_labels, playlist_labels_index, req.body.tracklistSize).catch(err => console.log("Error: ", err))
+    console.log("Recommended Songs: ", recommendedTracks)
+    res.send(recommendedTracks)
+    return recommendedTracks
 })
 //delete all the playlist items
 LargePlayListRouter.delete('/:largePlayListId',(req, res) => {

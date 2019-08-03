@@ -43,13 +43,13 @@ function getPlaylistTracks(path) {
 			    	labels.push(id);
 			    	temp_track_ids.push(id);
 
-					//console.log("Track: " + (offset + i) + " Artist: " + artists + " Song: " + name + " Id: " + id); 
+					//console.log("Track: " + (offset + i) + " Artist: " + artists + " Song: " + name + " Id: " + id);
 	    		}
 
 	    		data_offset += 100
 	    		console.log('The playlist contains these tracks'+ data.body['next']);
 	     		return [temp_track_ids, data.body['next']];
-		    	
+
 	    }).then(function(data){
 	    		console.log("starign11111")
 	    		if(data[1] == null || data_offset >= max_songs) done = true;
@@ -62,8 +62,8 @@ function getPlaylistTracks(path) {
 			}
 			return data;
 		}).catch(function(err) {
-			console.error('Error occurred: ' + err); 
-		}); 
+			console.error('Error occurred: ' + err);
+		});
 };
 
 
@@ -101,12 +101,12 @@ function getTrackInfo(arr){
 	  });
 }
 
-function runTensor(features, labels, k) {
+function runTensor(targetTrackFeatures, playlist_features, playlist_labels, k) {
 
-	tffeatures = tf.tensor(features);
-	tflabels = tf.tensor(labels).expandDims(1);
-	tfpred = tf.tensor(features[3]);
-	//tflabels.print()
+	tffeatures = tf.tensor(playlist_features);
+	tflabels = tf.tensor(playlist_labels).expandDims(1);
+	tfpred = tf.tensor(targetTrackFeatures);
+
 	getKNN(tfpred, tffeatures, tflabels, k)[2];
 
 
@@ -115,7 +115,7 @@ function runTensor(features, labels, k) {
 
 
 function getKNN(predicitionPoint, features, labels, k) {
-	return features.sub(predicitionPoint).pow(2).sum(1).sqrt().expandDims(1).concat(labels, 1).unstack().sort((a, b) => { 
+	return features.sub(predicitionPoint).pow(2).sum(1).sqrt().expandDims(1).concat(labels, 1).unstack().sort((a, b) => {
 		//console.log(a.arraySync()[0]);
 		return a.arraySync()[0] - b.arraySync()[0] }).slice(0,k);
 }
