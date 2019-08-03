@@ -10,33 +10,29 @@ export default class MainBody extends Component {
     //  features returned by that song Id
     state = {
         targetSongFeatures: [],
-        reccomenderPlaylist: []
+        recommendedPlaylist: []
     }
 
     //This function stores the id of the song selected by the user in state
     //Pass this method down to search componenet
-    runFunctionsToUpdateRecommenderPlaylist = async (newSongId) => {
+    runFunctionsToUpdaterecommendedPlaylist = async (newSongId) => {
         await this.useSongIdToGetFeatures(newSongId)
-        console.log("ACTIVATED!!", this.state.targetSongFeatures)
         let tracklistSize = 20;
-        console.log("2ACTIVATED!!")
 
         await this.getRecommendedTracks(this.state.targetSongFeatures, tracklistSize)
         //place the tensor method here so that it runs as soon as as the
         //  features have been grabbed and uploaded to state
+        console.log("recommendedPlaylist", this.state.recommendedPlaylist)
 
     }
 
 //req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize
     //TODO: PARSE DATAGBASE AND GET PLAYLIST FEATUREs, PLAYLIST LABELS, AND TRACK INFO
-    getRecommendedTracks = (targetTrackFeatures, tracklistSize) => {
-      console.log("3ACTIVATED!!")
-
-      let res =  axios.post('http://192.168.1.84:3001/api/tracks/getRecommendedTracks',
+    getRecommendedTracks = async (targetTrackFeatures, tracklistSize) => {
+      let body =  await axios.post('http://192.168.1.84:3001/api/tracks/getRecommendedTracks',
       { targetTrackFeatures: targetTrackFeatures,
-       tracklistSize: tracklistSize, }).then((body) => {
-        this.setState({reccomenderPlaylist: body.data})
-      }).catch(err => console.log('Error: ', err));
+       tracklistSize: tracklistSize, })
+      this.setState({recommendedPlaylist: body.data})
     }
 
 
@@ -45,7 +41,7 @@ export default class MainBody extends Component {
     useSongIdToGetFeatures = async (songId) => {
       let body =  await axios.post('http://192.168.1.84:3001/api/tracks/getTargetTrackFeatures', { trackid: songId })
       this.setState({targetSongFeatures: body.data})
-      console.log("targetSongFeatures", this.state.targetSongFeatures, "BODY", body.data)
+      // console.log("targetSongFeatures", this.state.targetSongFeatures, "BODY", body.data)
      }
 
     render() {
@@ -56,11 +52,11 @@ export default class MainBody extends Component {
         //Then use the render method to have the component show
         let SearchComponent = () => <Search
             songId={this.state.songId}
-            sendSongToGetFeatures={this.runFunctionsToUpdateRecommenderPlaylist}
+            sendSongToGetFeatures={this.runFunctionsToUpdaterecommendedPlaylist}
             token={this.props.token} />
 
         let RecommenderComponent = () => <Recommender
-            playlist={this.state.reccomenderPlaylist}
+            playlist={this.state.recommendedPlaylist}
             token={this.props.token}
         />
 

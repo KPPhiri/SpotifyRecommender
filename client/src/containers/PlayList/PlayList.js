@@ -15,7 +15,7 @@ class PlayList extends Component {
       <div id="PlayListContainer">
       {this.state.tracks.map((track, index) => {
         return (
-          <Track movetrack1totrack2={this.props.movetrack1totrack2.bind(this)}  playlist_type = {this.props.playlist_type} name={track.name} artist={track.artist} album={track.album}></Track>
+          <Track movetrack1totrack2={this.props.movetrack1totrack2.bind(this)}  playlist_type = {this.props.playlist_type} name={track.name} artists={track.artists} album={track.album}></Track>
         )
       })}
       </div>

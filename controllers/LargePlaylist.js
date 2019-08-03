@@ -28,8 +28,19 @@ LargePlayListRouter.post('/', (req, res) => {
 //Get songs from a spotify playlist using Spotify's API and load tracks into MongoDB
 LargePlayListRouter.get('/loadTracksToDatabase', (req, res) => {
   SpotifyTensorAPI.asyncgetPlaylistTrackIDsDriver('https://api.spotify.com/v1/playlists/7htu5ftbLBRFAwiuHVcUAg')
-    .then((arrays) => LargePlaylistAPI.createLargeSpotifyPlaylist({features: arrays[0], labels: arrays[1], track_information: arrays[2]})).then((data) => console.log("Result: ", data)).catch(err => console.log("Error", err))
+    .then((arrays) => LargePlaylistAPI.createLargeSpotifyPlaylist({features: arrays[0], labels: arrays[1], track_information: arrays[2]})).then((data) =>{
+      console.log("Result: ", res.send("Success"))
+      res.send("Success", data)}).catch(err => {
+        console.log("Error", err)
+        res.send("Error", err)
+      })
 })
+
+
+LargePlayListRouter.get('/clearDatabase', (req, res) => {
+  LargePlaylistAPI.deleteAllItems().then(res.send("Success")).catch(err => console.log("Error", err))
+})
+
 
 
 
@@ -52,10 +63,18 @@ LargePlayListRouter.post('/getRecommendedTracks', async (req, res) => {
        playlist_labels_index.push(i);
     }
 
-    let recommendedTracks = await SpotifyTensorAPI.runTensor(req.body.targetTrackFeatures, playlist_features, playlist_labels, playlist_labels_index, req.body.tracklistSize).catch(err => console.log("Error: ", err))
-    console.log("Recommended Songs: ", recommendedTracks)
-    res.send(recommendedTracks)
-    return recommendedTracks
+    let recommendedPlaylistIndexes = await SpotifyTensorAPI.runTensor(req.body.targetTrackFeatures, playlist_features, playlist_labels, playlist_labels_index, req.body.tracklistSize).catch(err => console.log("Error: ", err))
+    // console.log("Recommended Songs: ", recommendedPlaylistIndexes)
+    let recommendedPlaylist = []
+    for(let i = 0; i < recommendedPlaylistIndexes.length; i++) {
+      // console.log("Song" + i + ":", playlist_track_information[recommendedPlaylistIndexes[i]]);
+      recommendedPlaylist.push(playlist_track_information[recommendedPlaylistIndexes[i]])
+    }
+
+
+
+    res.send(recommendedPlaylist)
+    return recommendedPlaylist
 })
 //delete all the playlist items
 LargePlayListRouter.delete('/:largePlayListId',(req, res) => {
