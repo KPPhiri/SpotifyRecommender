@@ -1,16 +1,18 @@
 #main {
   font-family: "Garamond", Times, serif;
   font-size: 30px;
+  background-color: rgba(0,0,255,0.1);
+  margin: 5px;
   /*
   border-style: solid;
-  border-width: 2px;
-  border-color: #4D34A8; */
+  border-width: 2px; */
+
 }
 
 #left {
   float:left;
   font-size: 20px;
-  color: #4D34A8;
+  color: rgba(255, 255, 255, .7);
   display: inline-block;
 
   margin-right: 5px;
@@ -23,7 +25,7 @@
   margin-right: 10px;
   float: right;
   font-size: 20px;
-  color: #4D34A8;
+  color: rgba(255, 255, 255, .7);
 }
 
 .navButton {
@@ -35,7 +37,7 @@
 }
 .topnav {
   overflow: hidden;
-  background-color: black;
+  background-color: rgba(0,0,255,0.2);
 }
 
 .topnav a {

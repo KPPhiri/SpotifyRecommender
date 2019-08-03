@@ -4,7 +4,7 @@
   height: 8vh;
   border-style: solid;
   border-width: 2px;
-  background: rgba(115, 101, 152, 0.1);
+  background: rgba(0,0,255,0.1);
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
@@ -41,7 +41,7 @@
 #songName {
   margin-left: 10px;
   text-align: left;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: bold;
   color:white;
   break-after: always;
