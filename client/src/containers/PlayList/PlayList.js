@@ -7,15 +7,23 @@ class PlayList extends Component {
     tracks: this.props.tracks
   }
 
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.tracks !== this.state.tracks) {
+      this.setState({ tracks: nextProps.tracks});
+    }
+  }
+
 
 
 
   render() {
+    console.log("PLAYLIST TYPE:", this.props.playlistType, "PLAYLIST:", this.state.tracks)
     return(
       <div id="PlayListContainer">
       {this.state.tracks.map((track, index) => {
         return (
-          <Track movetrack1totrack2={this.props.movetrack1totrack2.bind(this)}  playlist_type = {this.props.playlist_type} name={track.name} artists={track.artists} album={track.album}></Track>
+          <Track index = {index} togglePlayListTracks={this.props.togglePlayListTracks.bind(this)}  playlist_type = {this.props.playlist_type} name={track.name} artists={track.artists} album={track.album}></Track>
         )
       })}
       </div>

@@ -9,6 +9,7 @@ LargePlayListRouter.use(cors());
 
 //Returns the entire playlist from the database
 LargePlayListRouter.get('/', (req, res) => {
+  console.log("reached server")
   LargePlaylistAPI.getAllTracks()
     .then((tracks) => {
       console.log(tracks)
