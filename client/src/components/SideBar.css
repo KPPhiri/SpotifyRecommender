@@ -18,7 +18,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
-    color: white;
+    color: rgba(255, 255, 255, 1);
     /* font-family: Verdana, sans-serif; */
 }
 
