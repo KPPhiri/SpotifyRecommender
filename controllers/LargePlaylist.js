@@ -47,7 +47,9 @@ LargePlayListRouter.get('/clearDatabase', (req, res) => {
 
 
 LargePlayListRouter.post('/getTargetTrackFeatures', async (req, res) => {
-    let features = await SpotifyTensorAPI.getTargetTrackFeatures(req.body.trackid).catch(err => console.log("ERROR: ", err))
+    let features = await SpotifyTensorAPI
+      .getTargetTrackFeatures(req.body.trackid, req.body.token)
+      .catch(err => console.log("ERROR: ", err))
     res.send(features)
 })
 
