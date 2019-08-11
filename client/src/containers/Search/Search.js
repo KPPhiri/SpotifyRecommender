@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Search.css'
+import SearchResults from '../../components/SearchResults'
 import { Link } from 'react-router-dom'
 
 export default class Search extends Component {
@@ -11,6 +12,7 @@ export default class Search extends Component {
         listOfSongs: [],
         showSearchButton: true,
         searchUrl: '',
+        searchedSong: ''
     }
 
     //Store user search input in state searchfield 
@@ -32,6 +34,7 @@ export default class Search extends Component {
         if (this.state.searchField !== '') {
             await this.turnSearchFieldIntoQuery(this.state.searchField)
             this.getListofSongsFromSpotify(this.state.searchUrl)
+            this.setState({searchedSong: this.state.searchField})
             this.setState({searchField: ''})
         }
     }
@@ -65,7 +68,7 @@ export default class Search extends Component {
 
         //Destructure state so that it can be used in the render method without adding 
         //  this.state to access a value
-        let { listOfSongs, showSearchButton } = this.state
+        let { listOfSongs, showSearchButton, searchedSong } = this.state
 
         //Create list of songs
         let songList = listOfSongs.map(song => {
@@ -104,14 +107,20 @@ export default class Search extends Component {
                                 className="">Submit</button>
                         </form>
                         :
-                        <div id="songListDisplay"
-                            className="col-xs-10 col-md-12">
-                            {songList}
-                            <button onClick={this.toggleSearchView}>Do Another Search</button>
-                            <Link to='/recommender'>
-                                <button className='goToRecommenderButton'>View Playlist</button>
-                            </Link>
-                        </div>
+                        <SearchResults 
+                            songs={listOfSongs}
+                            getTrackFeatures={this.props.sendSongToGetFeatures}
+                            toggleSearchView={this.toggleSearchView}
+                            songName={searchedSong}
+                        />
+                        // <div id="songListDisplay"
+                        //     className="col-xs-10 col-md-12">
+                        //     {songList}
+                        //     <button onClick={this.toggleSearchView}>Do Another Search</button>
+                        //     <Link to='/recommender'>
+                        //         <button className='goToRecommenderButton'>View Playlist</button>
+                        //     </Link>
+                        // </div>
                 }
             </div>
         )

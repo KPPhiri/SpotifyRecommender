@@ -1,0 +1,14 @@
+#songListDisplay {
+    max-width: 100vw;
+    height: 90vh;
+}
+
+#search-SongsList {
+    height:70vh;
+    overflow-y: auto;
+}
+
+#songListDisplay h2 {
+    color: white;
+    font-size: 3em;
+}

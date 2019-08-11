@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './MainBody.css'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Recommender from '../Recommender/Recommender';
 import Search from '../Search/Search';
 import axios from 'axios'
@@ -18,12 +18,10 @@ export default class MainBody extends Component {
     runFunctionsToUpdaterecommendedPlaylist = async (newSongId) => {
         await this.useSongIdToGetFeatures(newSongId)
         let tracklistSize = 20;
-
         await this.getRecommendedTracks(this.state.targetSongFeatures, tracklistSize)
         //place the tensor method here so that it runs as soon as as the
         //  features have been grabbed and uploaded to state
         console.log("recommendedPlaylist", this.state.recommendedPlaylist)
-
     }
 
     //req.body.targetTrackFeatures, req.body.playlist_features, req.body.playlist_labels, req.body.tracklistSize
